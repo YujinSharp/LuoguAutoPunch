@@ -37,4 +37,52 @@ jobs:
         LUOGU_COOKIE: ${{ secrets.LUOGU_COOKIE }}
         PUSHPLUS_TOKEN: ${{ secrets.PUSHPLUS_TOKEN }}
       run: python main.py
-    
+  send-log-text:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Read and format log content
+        id: get_log
+        run: |
+          if [ -f "log.txt" ]; then
+            # 读取日志内容，限制长度避免邮件过大
+            LOG_CONTENT=$(head -c 50000 log.txt)  # 限制50KB
+            echo "log_content<<EOF" >> $GITHUB_OUTPUT
+            echo "$LOG_CONTENT" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+            echo "log_exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "log_content=Log file not found or empty" >> $GITHUB_OUTPUT
+            echo "log_exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Send plain text email with log
+        if: steps.get_log.outputs.log_exists == 'true'
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.163.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: '日志内容 - ${{ github.repository }}'
+          body: |
+            仓库日志文件内容
+            =================
+            
+            仓库: ${{ github.repository }}
+            分支: ${{ github.ref }}
+            提交: ${{ github.sha }}
+            时间: ${{ github.event.head_commit.timestamp }}
+            
+            日志内容:
+            ========
+            ${{ steps.get_log.outputs.log_content }}
+            
+            ========
+            GitHub Actions 自动发送
+            查看详情: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          to: mrfrank520@163.com
+          from: GitHub Actions <${{ secrets.EMAIL_USERNAME }}>
+          content_type: text/plain

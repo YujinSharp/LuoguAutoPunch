@@ -5,10 +5,12 @@ from playwright.sync_api import sync_playwright
 
 try:
     from dotenv import load_dotenv
-    load_dotenv() 
-    print("✅ 本地调试模式：已加载 .env 文件")
+    if load_dotenv(): # 只有真的找到了文件并加载成功，才打印
+        print("✅ 本地调试模式：已加载 .env 文件")
+    else:
+        print("⚙️ 云端/无文件模式：将使用系统环境变量 (Secrets)")
 except ImportError:
-    print("⚠️ 未安装 python-dotenv，或运行在云端，跳过加载 .env")
+    pass
 
 # ----------------------------------------------------------------
 # 通用通知函数
@@ -163,3 +165,4 @@ class JuejinBrowser:
 if __name__ == "__main__":
 
     JuejinBrowser().run()
+

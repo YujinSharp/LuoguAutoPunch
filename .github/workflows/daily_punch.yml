@@ -120,6 +120,6 @@ jobs:
           (本邮件由 GitHub Actions 自动发送)
         
         # 👇 3. 修改收件人 (改成你自己的！)
-        to: 3918967988@qq.com # 请将此处改成你自己的邮箱。
+        to: sa101333@163.com # 请将此处改成你自己的邮箱。
         from: 打卡助手 <${{ secrets.EMAIL_USERNAME }}>
         content_type: text/plain

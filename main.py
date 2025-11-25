@@ -59,14 +59,16 @@ def luogu_punch():
 
     url = "https://www.luogu.com.cn/index/ajax_punch"
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.5.5",
         "Cookie": cookie_str,
         "Referer": "https://www.luogu.com.cn/",
-        "x-requested-with": "XMLHttpRequest"
+        "x-requested-with": "XMLHttpRequest",
+        "Content-Type": "application/json",
+        "Origin": "https://www.luogu.com.cn"
     }
 
     try:
-        response = requests.get(url, headers=headers, timeout=15)
+        response = requests.post(url, headers=headers, timeout=15, json={})
         
         # 预防服务器直接崩了，不是 JSON 格式
         try:
@@ -115,5 +117,6 @@ def luogu_punch():
 
 if __name__ == "__main__":
     luogu_punch()
+
 
 

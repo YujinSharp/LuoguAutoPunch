@@ -62,9 +62,7 @@ def luogu_punch():
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.5.5",
         "Cookie": cookie_str,
         "Referer": "https://www.luogu.com.cn/",
-        "x-requested-with": "XMLHttpRequest",
-        "Content-Type": "application/json",
-        "Origin": "https://www.luogu.com.cn"
+        "x-requested-with": "XMLHttpRequest"
     }
 
     try:
@@ -117,6 +115,7 @@ def luogu_punch():
 
 if __name__ == "__main__":
     luogu_punch()
+
 
 
 

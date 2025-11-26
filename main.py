@@ -66,7 +66,7 @@ def luogu_punch():
     }
 
     try:
-        response = requests.post(url, headers=headers, timeout=15, json={})
+        response = requests.get(url, headers=headers, timeout=15, json={})
         
         # 预防服务器直接崩了，不是 JSON 格式
         try:
@@ -115,6 +115,7 @@ def luogu_punch():
 
 if __name__ == "__main__":
     luogu_punch()
+
 
 
 
